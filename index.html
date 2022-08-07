@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Node {
+        constructor(val) {
+          this.val = val;
+          this.next = null;
+        }
+      }
+      class SLL {
+        constructor() {
+          this.head = null;
+          this.length = 0;
+        }
+        print() {
+          return this;
+        }
+        push(val) {
+          let newNode = new Node(val);
+          if (!this.head) {
+            this.head = newNode;
+          } else {
+            let current = this.head;
+            while (current.next) {
+              current = current.next;
+            }
+            current.next = newNode;
+          }
+          this.length++;
+          return this;
+        }
+        pop() {
+          if (!this.head) return undefined;
+          let current = this.head;
+          let newead = current;
+          let count = 0;
+          while (current.next) {
+            newead = current;
+            current = current.next;
+          }
+          newead.next = null;
+          this.length--;
+          return this;
+        }
+        shift() {
+          if (!this.head) return undefined;
+          let current = this.head;
+          this.head = current.next;
+          this.length--;
+          return current;
+        }
+        unshift(val) {
+          let newNode = new Node(val);
+          if (!this.head) this.head = newNode;
+          else {
+            newNode.next = this.head;
+            this.head = newNode;
+          }
+          this.length++;
+          return this;
+        }
+        get(index) {
+          if (index < 0 || index >= this.length) return null;
+          let counter = 0;
+          let current = this.head;
+          while (counter !== index) {
+            current = current.next;
+            counter++;
+          }
+          return current;
+        }
+        set(index, val) {
+          let foundNode = this.get(index);
+          if (foundNode) {
+            foundNode.val = val;
+            return true;
+          }
+          return false;
+        }
+        insert(index, val) {
+          const newNode = new Node(val);
+          if (index < 0 || index > this.length) return false;
+          if (index === this.length) return !!this.push(val); //double bang turns things into boolean values.
+          if (index === 0) return !!this.unshift(val);
+          let prev = this.get(index - 1);
+          let temp = prev.next;
+          prev.next = newNode;
+          newNode.next = temp;
+          this.length++;
+          return true;
+        }
+        remove(index) {
+          if (index < 0 || index >= this.length) return false;
+          if (index === this.length - 1) return this.pop();
+          if (index === 0) return this.shift();
+          let prev = this.get(index - 1);
+          let removed = prev.next;
+          prev.next = removed.next;
+          this.length--;
+          return this;
+        }
+        reverse() {
+          let prev = null;
+          let current = this.head;
+          let next = null;
+
+          while (current !== null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+          }
+          return prev;
+        }
+      }
+      const sll = new SLL();
+      sll.push(1);
+      sll.push(2);
+      sll.push(3);
+      sll.unshift(0);
+      sll.insert(2, 3);
+      //   sll.get(2);
+      //   sll.shift();
+      //   sll.pop();
+      //   sll.remove(2);
+      console.log(sll.reverse());
+      console.log(sll.print());
+    </script>
+  </body>
+</html>
